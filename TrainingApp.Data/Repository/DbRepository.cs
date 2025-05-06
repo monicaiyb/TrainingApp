@@ -22,7 +22,7 @@ namespace TrainingApp.Data.Repository
         }
 
 
-      
+
 
         public DbSet<T> Set<T>() where T : class
         {
@@ -69,7 +69,7 @@ namespace TrainingApp.Data.Repository
 
         public async Task SaveChanges()
         {
-            
+
             await _database.SaveChangesAsync();
         }
 
@@ -78,7 +78,7 @@ namespace TrainingApp.Data.Repository
             _database.Entry(model).Reference(Property).Load();
         }
 
-      
+
         public async Task DeleteItems(Guid itemId, string userId)
         {
             var item = await MyBaseEntities.FindAsync(itemId);
@@ -110,10 +110,5 @@ namespace TrainingApp.Data.Repository
         {
             _database.Remove(model);
         }
-
-       
-
-      
-    
     }
 }

@@ -10,8 +10,7 @@ namespace TrainingApp.Data.Repository
   
        
     {
-
-      
+     
         DbSet<T> Set<T>() where T : class;
 
         Task UpdateDatabaseModel<T>(T dbItem, T updatedItem) where T : class;
