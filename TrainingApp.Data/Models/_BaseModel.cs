@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace trainingapp.data.basemodels
 {
@@ -6,7 +7,7 @@ namespace trainingapp.data.basemodels
     {
         #region fields
 
-        [key]
+        [Key]
         public Guid id { get; set; }
 
         public string iscreatedby { get; set; }
