@@ -1,5 +1,6 @@
 ﻿using System.DirectoryServices.Protocols;
 using Microsoft.AspNetCore.Mvc;
+using TrainingApp.Data.DTOs;
 
 namespace TrainingApp.Controllers
 {
@@ -10,7 +11,7 @@ namespace TrainingApp.Controllers
         [HttpGet(Name = "Employees")]
         public async Task<ActionResult<APIResponse>> GetAll()
         {
-            return await _accountService.GetAll();
+            var 
         }
         public IActionResult Index()
         {
