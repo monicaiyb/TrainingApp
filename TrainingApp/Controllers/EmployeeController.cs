@@ -1,5 +1,6 @@
 ﻿using System.DirectoryServices.Protocols;
 using Microsoft.AspNetCore.Mvc;
+using TrainingApp.BLL.Interfaces;
 using TrainingApp.Data.DTOs;
 
 namespace TrainingApp.Controllers
@@ -8,10 +9,18 @@ namespace TrainingApp.Controllers
     [ApiController]
     public class EmployeeController : Controller
     {
-        [HttpGet(Name = "Employees")]
-        public async Task<ActionResult<APIResponse>> GetAll()
+        private readonly IEmployeeService _employeeService;
+        private APIResponse _response;
+        public EmployeeController(IEmployeeService employeeService)
         {
-            var 
+            _employeeService = employeeService;
+            _response = new APIResponse();
+        }
+        [HttpGet(Name = "Employees")]
+        public async  Task<APIResponse> GetAll()
+        {
+            _response.Data = await _employeeService.GetAllEmployees();
+            return _response;
         }
         public IActionResult Index()
         {
