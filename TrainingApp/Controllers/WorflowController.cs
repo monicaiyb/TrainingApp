@@ -1,45 +1,46 @@
 ﻿using System.DirectoryServices.Protocols;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrainingApp.BLL.Interfaces;
 using TrainingApp.Data.DTOs;
 using TrainingApp.Data.Models.Employee;
+using TrainingApp.Data.Models.Workflow;
 
 namespace TrainingApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EmployeeController : Controller
+    public class WorkflowController : Controller
     {
-        private readonly IEmployeeService _employeeService;
+        private readonly IWorkflowService _workflowService;
         private APIResponse _response;
-        public EmployeeController(IEmployeeService employeeService)
+        public WorkflowController(IWorkflowService workflowService)
         {
-            _employeeService = employeeService;
+            _workflowService = workflowService;
             _response = new APIResponse();
         }
-        [AllowAnonymous]
+    
         [HttpGet]
-        [Route("GetAll")]
+        [Route("AllConfigurations")]
         public async  Task<APIResponse> GetAll()
         {
-            _response.Data = await _employeeService.GetAllEmployees();
+            _response.Data = await _workflowService.GetAllConfigurations();
             return _response;
         }
         [HttpGet]
-        [Route("Employee")]
+        [Route("Configuration")]
         public async Task<APIResponse> GetEmployee(Guid id)
         {
-            _response.Data = await _employeeService.GetAllEmployees();
+            _response.Data = await _workflowService.GetAllConfigurations();
             return _response;
         }
 
         [HttpPost]
-        [Route("AddEmployee")]
-        public async Task<APIResponse> Post(Employee employee)
+        [Route("AddConfiguration")]
+        public async Task<APIResponse> Post(WorkflowConfiguration configuration)
         {
-            var success = await _employeeService.SaveEmployee(employee);
+            var success = await _workflowService.SaveConfiguration(configuration);
             _response.IsSuccess = success;
+
                 return _response;
         }
 
