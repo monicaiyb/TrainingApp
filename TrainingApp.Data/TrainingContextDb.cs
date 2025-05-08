@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 using System;
 using TrainingApp.Data.Models.Employee;
+using TrainingApp.Data.Models.Users;
 
 
 namespace TrainingApp.Data
@@ -27,7 +28,10 @@ namespace TrainingApp.Data
 
 
         public DbSet<Employee> Employees { get; set; }
-
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<RoleMapping> RoleMappings { get; set; }
+        public DbSet<RolePermission> RolePermissions { get; set; }
     }
 
 

@@ -7,6 +7,7 @@ using TrainingApp.BLL.Services;
 using TrainingApp.Data;
 using TrainingApp.Data.Models.Users;
 using TrainingApp.Data.Repository;
+using TrainingApp.Data.SeedData;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,6 +76,34 @@ builder.Services.AddAuthorization(options =>
 });
 
 var app = builder.Build();
+
+//Seed Data
+SeedDatabase();
+
+
+
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        try
+        {
+            var services = scope.ServiceProvider;
+
+            var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+            var roleManager = services.GetRequiredService<RoleManager<Role>>();
+
+            var scopedContext = services.GetRequiredService<SeedData>();
+            SeedData.SeedDataAndRole(userManager, roleManager);
+        }
+        catch (Exception ex)
+        {
+            // Handle exception appropriately, e.g., log it
+            Console.WriteLine($"An error occurred while seeding the database: {ex.Message}");
+            throw;
+        }
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

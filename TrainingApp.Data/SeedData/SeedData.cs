@@ -36,9 +36,9 @@ namespace TrainingApp.Data.SeedData
             {
 
             
-            string adminUserEmail = "ssemuyabajohn@gmail.com";
-            string sisterUserEmail = "echessabenerdette@yahoo.com";
-            string normalUserEmail = "smrentebbe2008@gmail.com";
+            string adminUserEmail = "monicaiyb@gmail.com";
+            string sisterUserEmail = "monicaiyb@yahoo.com";
+            string normalUserEmail = "monicaiyb+1@gmail.com";
 
                 var adminUser =  userManager.FindByEmailAsync(adminUserEmail).Result;
             if (adminUser == null)
@@ -143,7 +143,6 @@ namespace TrainingApp.Data.SeedData
             if (!roleAdmin)
             {
                 Role role = new Role("AdminUser");
-                    //role.Id = Guid.NewGuid().ToString();
                     
                 IdentityResult roleResult = roleManager.CreateAsync(role).Result;
 
