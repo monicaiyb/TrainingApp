@@ -1,5 +1,6 @@
 
 
+using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using TrainingApp.Data;
 using TrainingApp.Data.Models.Users;
 using TrainingApp.Data.Repository;
 using TrainingApp.Data.SeedData;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -118,6 +120,13 @@ app.UseHttpsRedirection();
 app.MapGet("/login", [AllowAnonymous] () => "This endpoint is for all roles.");
 
 app.UseAuthorization();
+app.UseHangfireDashboard();
+
+
+app.UseHangfireServer();
+
+RecurringJob.AddOrUpdate<BackgroundWorkflowService>("Updating WOrkflow Information", r => r.UpdateWorkflowInfo(), Cron.Weekly);
+
 
 app.MapControllers();
 

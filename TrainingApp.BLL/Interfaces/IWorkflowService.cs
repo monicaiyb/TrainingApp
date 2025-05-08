@@ -13,7 +13,7 @@ namespace TrainingApp.BLL.Interfaces
     {
         Task<List<WorkflowConfiguration>> GetAllConfigurations();
         Task<bool> SaveConfiguration(WorkflowConfiguration config);
-        Task<List<WorkflowConfiguration>> GetAllConfigurationSteps();
-        Task<bool> SaveConfigurationSteps(WorkflowConfigurationStep step);
+        Task<List<WorkflowConfigurationStep>> GetAllConfigurationSteps();
+        Task<bool> SaveConfigurationSteps(List<WorkflowConfigurationStep> steps, Guid configId);
     }
 }

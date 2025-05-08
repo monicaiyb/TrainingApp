@@ -49,6 +49,48 @@ namespace TrainingApp.BLL.Services
 
             return true;
         }
+        public async Task<List<WorkflowConfigurationStep>> GetAllConfigurationSteps()
+        {
+            var steps = await _repository.Set<WorkflowConfigurationStep>()
+                .Include(r=>r.WorkflowConfiguration).ToListAsync();
+            return steps;
+        }
 
+        public async Task<bool> SaveConfigurationSteps(List<WorkflowConfigurationStep> newSteps, Guid configId)
+        {
+            try
+            {
+                var dbConfiguration = await _repository.Set<WorkflowConfiguration>().FindAsync(configId);
+
+                if (dbConfiguration == null)
+                {
+                    throw new Exception("No matching workflow config found");
+                }
+
+                var steps = _repository.Set<WorkflowConfigurationStep>()
+                    .Where(r => r.ConfigurationId == dbConfiguration.id).ToList();
+                if (steps.Count <= 0)//new record
+                {
+                    await _repository.Set<WorkflowConfigurationStep>().AddRangeAsync(newSteps);
+                }
+                else
+                {
+                    foreach (var step in steps)
+                    {
+                        await _repository.Remove(step);
+                    }
+                    _repository.Set<WorkflowConfigurationStep>().UpdateRange(newSteps);
+                }
+
+                await _repository.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+                throw ;
+            }
+
+            return true;
+        }
     }
 }
