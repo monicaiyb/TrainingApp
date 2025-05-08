@@ -30,7 +30,7 @@ builder.Services.AddDbContextPool<TrainingContextDb>(options =>
 
 builder.Services.AddTransient<IDbRepository, DbRepository>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
-
+builder.Services.AddTransient<IWorkflowService, WorkflowService>();
 
 builder.Services.AddScoped<UserManager<ApplicationUser>>();
 builder.Services.AddScoped<RoleManager<Role>>();
