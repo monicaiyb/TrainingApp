@@ -1,9 +1,11 @@
 
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TrainingApp.BLL.Interfaces;
 using TrainingApp.BLL.Services;
 using TrainingApp.Data;
+using TrainingApp.Data.Models.Users;
 using TrainingApp.Data.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +29,37 @@ builder.Services.AddDbContextPool<TrainingContextDb>(options =>
 
 builder.Services.AddTransient<IDbRepository, DbRepository>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
+
+
+builder.Services.AddScoped<UserManager<ApplicationUser>>();
+builder.Services.AddScoped<RoleManager<Role>>();
+
+
+// Add SeedData
+//builder.Services.AddTransient<SeedData>();
+
+builder.Services.AddIdentity<ApplicationUser, Role>(
+
+        options => options.SignIn.RequireConfirmedAccount = true
+    )
+    
+    .AddEntityFrameworkStores<TrainingContextDb>().AddRoles<Role>()
+    .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>(TokenOptions.DefaultProvider);
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Lockout settings.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.AllowedForNewUsers = true;
+
+    // User settings.
+    options.User.AllowedUserNameCharacters =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = false;
+});
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -12,7 +12,7 @@ namespace TrainingApp.Data.DTOs
 
         public object Data { get; set; }
         public int Code { get; set; }
-
+        public bool IsSuccess { get; set; }
         public string Status { get; set; }
 
     }

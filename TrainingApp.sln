@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainingApp.Data", "Trainin
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkflowApp", "WorkflowApp", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainingApp.Test", "TrainingApp.Test\TrainingApp.Test.csproj", "{0B4B5DCE-2527-4851-927D-0000F0093B92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{BD4D6E80-A5EB-44E0-B880-10ACE7D6EF14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD4D6E80-A5EB-44E0-B880-10ACE7D6EF14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD4D6E80-A5EB-44E0-B880-10ACE7D6EF14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B4B5DCE-2527-4851-927D-0000F0093B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B4B5DCE-2527-4851-927D-0000F0093B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B4B5DCE-2527-4851-927D-0000F0093B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B4B5DCE-2527-4851-927D-0000F0093B92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

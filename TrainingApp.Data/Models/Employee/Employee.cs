@@ -7,7 +7,7 @@ using trainingapp.data.basemodels;
 
 namespace TrainingApp.Data.Models.Employee
 {
-    public class Employee : _basemodel
+    public class Employee : _Basemodel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

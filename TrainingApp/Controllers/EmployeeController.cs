@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TrainingApp.BLL.Interfaces;
 using TrainingApp.Data.DTOs;
+using TrainingApp.Data.Models.Employee;
 
 namespace TrainingApp.Controllers
 {
@@ -16,15 +17,30 @@ namespace TrainingApp.Controllers
             _employeeService = employeeService;
             _response = new APIResponse();
         }
-        [HttpGet(Name = "Employees")]
+    
+        [HttpGet]
+        [Route("AllEmployees")]
         public async  Task<APIResponse> GetAll()
         {
             _response.Data = await _employeeService.GetAllEmployees();
             return _response;
         }
-        public IActionResult Index()
+        [HttpGet]
+        [Route("Employee")]
+        public async Task<APIResponse> GetEmployee(Guid id)
         {
-            return View();
+            _response.Data = await _employeeService.GetAllEmployees();
+            return _response;
         }
+
+        [HttpPost]
+        [Route("AddEmployee")]
+        public async Task<APIResponse> Post(Employee employee)
+        {
+            var success = await _employeeService.SaveEmployee(employee);
+            _response.IsSuccess = success;
+                return _response;
+        }
+
     }
 }

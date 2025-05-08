@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace trainingapp.data.basemodels
 {
-    public abstract class _basemodel
+    public abstract class _Basemodel
     {
         #region fields
 
