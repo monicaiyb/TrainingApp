@@ -49,16 +49,16 @@ namespace TrainingApp.Test.WorkflowServiceTest
             }.AsQueryable();
 
             var mockDbSet = new Mock<DbSet<WorkflowConfigurationStep>>();
-            mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            //mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.Provider).Returns(data.Provider);
+            //mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.Expression).Returns(data.Expression);
+            //mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            //mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
             mockDbSet.Setup(m => m.Include(It.IsAny<string>())).Returns(mockDbSet.Object);
 
             _mockRepository.Setup(r => r.Set<WorkflowConfigurationStep>()).Returns(mockDbSet.Object);
 
-            _workflowService = new WorkflowService(_mockRepository.Object);
+            //_workflowService = new WorkflowService(_mockRepository.Object);
         }
 
         [TestMethod]
