@@ -1,5 +1,6 @@
 
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TrainingApp.BLL.Interfaces;
@@ -37,13 +38,13 @@ builder.Services.AddScoped<RoleManager<Role>>();
 
 
 // Add SeedData
-//builder.Services.AddTransient<SeedData>();
+builder.Services.AddTransient<SeedData>();
 
 builder.Services.AddIdentity<ApplicationUser, Role>(
 
         options => options.SignIn.RequireConfirmedAccount = true
     )
-    
+
     .AddEntityFrameworkStores<TrainingContextDb>().AddRoles<Role>()
     .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>(TokenOptions.DefaultProvider);
 
@@ -61,12 +62,12 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors();
 
 
 builder.Services.AddAuthorization(options =>
@@ -109,10 +110,12 @@ void SeedDatabase()
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+
     app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
+app.MapGet("/login", [AllowAnonymous] () => "This endpoint is for all roles.");
 
 app.UseAuthorization();
 
