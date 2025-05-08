@@ -33,9 +33,24 @@ Update appsettings.Development.json or appsettings.json with your database and a
 ```
 
 ### 3. Apply Migrations & Seed Database
-Ensure EF Core tools are installed, then run:
+Ensure EF Core tools are installed
 
 ### 4. Run the Application
+Running the application will seed the database with initial user data
+```
+dotnet run
+```
 ### 5. Explore the API (Swagger)
+
+
+##  Workflow Overview
+- Define workflow configuration and add steps and assign approvers
+
+- Create a workflow request by saving an employee(e.g., leave request)
+
+- Approvers receive notification based on the workflow sequence
+
+- Status updates at each step (Pending, Approved, Rejected)
+
 
 
