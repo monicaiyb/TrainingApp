@@ -20,14 +20,14 @@ namespace TrainingApp.Controllers
         }
     
         [HttpGet]
-        [Route("AllEmployees")]
+        [Route("AllConfigurations")]
         public async  Task<APIResponse> GetAll()
         {
             _response.Data = await _workflowService.GetAllConfigurations();
             return _response;
         }
         [HttpGet]
-        [Route("Employee")]
+        [Route("Configuration")]
         public async Task<APIResponse> GetEmployee(Guid id)
         {
             _response.Data = await _workflowService.GetAllConfigurations();
@@ -35,7 +35,7 @@ namespace TrainingApp.Controllers
         }
 
         [HttpPost]
-        [Route("AddEmployee")]
+        [Route("AddConfiguration")]
         public async Task<APIResponse> Post(WorkflowConfiguration configuration)
         {
             var success = await _workflowService.SaveConfiguration(configuration);

@@ -12,6 +12,8 @@ namespace TrainingApp.BLL.Interfaces
     public interface IWorkflowService
     {
         Task<List<WorkflowConfiguration>> GetAllConfigurations();
-        Task<bool> SaveConfiguration(WorkflowConfiguration employee);
+        Task<bool> SaveConfiguration(WorkflowConfiguration config);
+        Task<List<WorkflowConfiguration>> GetAllConfigurationSteps();
+        Task<bool> SaveConfigurationSteps(WorkflowConfigurationStep step);
     }
 }

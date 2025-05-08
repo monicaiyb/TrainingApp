@@ -1,4 +1,5 @@
 ﻿using System.DirectoryServices.Protocols;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrainingApp.BLL.Interfaces;
 using TrainingApp.Data.DTOs;
@@ -17,9 +18,9 @@ namespace TrainingApp.Controllers
             _employeeService = employeeService;
             _response = new APIResponse();
         }
-    
+        [AllowAnonymous]
         [HttpGet]
-        [Route("AllEmployees")]
+        [Route("GetAll")]
         public async  Task<APIResponse> GetAll()
         {
             _response.Data = await _employeeService.GetAllEmployees();

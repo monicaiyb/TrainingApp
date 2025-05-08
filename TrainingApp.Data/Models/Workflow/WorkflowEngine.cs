@@ -22,10 +22,10 @@ namespace TrainingApp.Data.Models.Workflow
         public string Name { get; set; }
         public string Description { get; set; }
         public EmployeeProcess Process { get; set; }
-        public virtual  List<WorkflowConfigurationSteps> StepsList { get; set; }
+        public virtual  List<WorkflowConfigurationStep> StepsList { get; set; }
     }
 
-    public class WorkflowConfigurationSteps : _Basemodel
+    public class WorkflowConfigurationStep : _Basemodel
     {
 
         public string Name { get; set; }

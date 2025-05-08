@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainingApp.Data;
 
@@ -11,9 +12,11 @@ using TrainingApp.Data;
 namespace TrainingApp.Data.Migrations
 {
     [DbContext(typeof(TrainingContextDb))]
-    partial class TrainingContextDbModelSnapshot : ModelSnapshot
+    [Migration("20250508084756_workflow")]
+    partial class workflow
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

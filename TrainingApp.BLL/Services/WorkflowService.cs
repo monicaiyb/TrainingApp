@@ -39,14 +39,11 @@ namespace TrainingApp.BLL.Services
                     await _repository.UpdateDatabaseModel(dbEmployee, employee);
                 }
 
-
-
                 await _repository.SaveChanges();
 
             }
             catch (Exception e)
             {
-
                 throw;
             }
 
