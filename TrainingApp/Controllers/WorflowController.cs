@@ -44,5 +44,28 @@ namespace TrainingApp.Controllers
                 return _response;
         }
 
+        [HttpPost]
+        [Route("AddSteps")]
+        public async Task<APIResponse> Post(List<WorkflowConfigurationStep> steps, Guid configId)
+        {
+            var success = await _workflowService.SaveConfigurationSteps(steps,configId);
+            _response.IsSuccess = success;
+
+            return _response;
+        }
+        [HttpGet]
+        [Route("AllWorkflowSteps")]
+        public async Task<APIResponse> GetAllSteps()
+        {
+            _response.Data = await _workflowService.GetAllConfigurations();
+            return _response;
+        }
+        [HttpGet]
+        [Route("ConfigSteps")]
+        public async Task<APIResponse> GetAllSteps(Guid configId)
+        {
+            _response.Data = await _workflowService.GetAllConfigurations();
+            return _response;
+        }
     }
 }
