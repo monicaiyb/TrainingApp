@@ -76,7 +76,7 @@ builder.Services.AddHangfire(config =>
         var options = new SqlServerStorageOptions
         {
             PrepareSchemaIfNecessary = true,
-            CommandBatchMaxTimeout = TimeSpan.FromMinutes(2),
+            CommandBatchMaxTimeout = TimeSpan.FromMinutes(2),  
             SlidingInvisibilityTimeout = TimeSpan.FromMinutes(2),
             UseRecommendedIsolationLevel = true,
             DisableGlobalLocks = true
