@@ -9,7 +9,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="Moq" Version="4.18.3" />
     <PackageReference Include="MSTest" Version="3.6.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TrainingApp.BLL\TrainingApp.BLL.csproj" />
+    <ProjectReference Include="..\TrainingApp.Data\TrainingApp.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
