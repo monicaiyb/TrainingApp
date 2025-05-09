@@ -34,6 +34,8 @@ namespace TrainingApp.Data
         public DbSet<RoleMapping> RoleMappings { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<WorkflowConfiguration> WorkflowConfigurations { get; set; }
+        public DbSet<WorkflowEngine> WorkflowEngines { get; set; }
+        public DbSet<WorkflowStateHistory> WorkflowStateHistory { get; set; }
         public DbSet<WorkflowConfigurationStep> WorkflowConfigurationSteps { get; set; }
     }
 

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using TrainingApp.BLL.Interfaces;
 using TrainingApp.Data.Enums;
@@ -10,14 +12,17 @@ using TrainingApp.Data.Models.Employee;
 using TrainingApp.Data.Models.Workflow;
 using TrainingApp.Data.Repository;
 
+
 namespace TrainingApp.BLL.Services
 {
     public class WorkflowService: IWorkflowService
     {
         private readonly IDbRepository _repository;
-        public WorkflowService(IDbRepository repository)
+        private readonly IHttpContextAccessor _httpContext;
+        public WorkflowService(IDbRepository repository, IHttpContextAccessor httpContext)
         {
             _repository = repository;
+            _httpContext = httpContext;
         }
 
         public async Task<List<WorkflowConfiguration>> GetAllConfigurations()
@@ -113,7 +118,7 @@ namespace TrainingApp.BLL.Services
                     engine.CurrentPosition = step.Position;
                     await _repository.Set<WorkflowEngine>().AddAsync(engine);
                 }
-                UpdateWorkflowState(engine.id,step,WorkflowState.Pending);
+                UpdateWorkflowState(engine,step,WorkflowState.Pending);
                 _repository.SaveChanges();
 
                 return true;    
@@ -126,9 +131,22 @@ namespace TrainingApp.BLL.Services
             
         }
 
-        public void UpdateWorkflowState(Guid engineId, WorkflowConfigurationStep step, WorkflowState? state )
+        public  void UpdateWorkflowState(WorkflowEngine engine, WorkflowConfigurationStep step, WorkflowState? state)
         {
-            var nextStep=_repository.Set<WorkflowConfigurationStep>().se
+             var nextStep = this._repository.Set<WorkflowConfigurationStep>()
+                .Where(r => r.Position > step.Position && r.ConfigurationId == step.ConfigurationId).FirstOrDefault();
+            var history = new WorkflowStateHistory
+            {
+                EngineId = engine.id,
+                StepId = step.id,
+                NextStep = nextStep.id,
+                State = state,
+                ExecutorUserId = _httpContext.HttpContext?.User.Identity.Name,
+                DateCreated = engine.createdon,
+                EndDate = DateTime.Now
+
+            };
+            this._repository.Set<WorkflowStateHistory>().Add(history);
         }
     }
 }

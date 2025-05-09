@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrainingApp.Data.DTOs;
+using TrainingApp.Data.Enums;
 using TrainingApp.Data.Models.Employee;
 using TrainingApp.Data.Models.Workflow;
 
@@ -15,6 +16,9 @@ namespace TrainingApp.BLL.Interfaces
         Task<bool> SaveConfiguration(WorkflowConfiguration config);
         Task<List<WorkflowConfigurationStep>> GetAllConfigurationSteps();
         Task<bool> SaveConfigurationSteps(List<WorkflowConfigurationStep> steps, Guid configId);
-        Task<bool> StartWorkflowTask();
+       Task<bool> StartWorkflowTask(WorkflowEngine engine);
+
+       void UpdateWorkflowState(WorkflowEngine engine, WorkflowConfigurationStep step,
+           WorkflowState? state);
     }
 }

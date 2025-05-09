@@ -57,9 +57,9 @@ namespace TrainingApp.Data.Models.Workflow
         public DateTime? EndDate { get; set; }
         public string Comment { get; set; }
         public string ExecutorUserId { get; set; }
-        public WorkflowState State { get; set; }
-        public long? StepId { get; set; }
-        public string NextStep { get; set; }
+        public WorkflowState? State { get; set; }
+        public Guid? StepId { get; set; }
+        public Guid NextStep { get; set; }
         public virtual WorkflowEngine Engine { get; set; }
     }
 }
