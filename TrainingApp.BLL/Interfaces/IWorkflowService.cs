@@ -15,5 +15,6 @@ namespace TrainingApp.BLL.Interfaces
         Task<bool> SaveConfiguration(WorkflowConfiguration config);
         Task<List<WorkflowConfigurationStep>> GetAllConfigurationSteps();
         Task<bool> SaveConfigurationSteps(List<WorkflowConfigurationStep> steps, Guid configId);
+        Task<bool> StartWorkflowTask();
     }
 }

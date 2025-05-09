@@ -11,11 +11,7 @@ using TrainingApp.Data.Models.Users;
 
 namespace TrainingApp.Data.Models.Workflow
 {
-    //public class WorkflowEngine:_Basemodel
-    //{
-    //    public string Name { get; set; }
-    //    public string Description { get; set; }
-    //}
+    
 
     public class WorkflowConfiguration : _Basemodel
     {
@@ -38,5 +34,32 @@ namespace TrainingApp.Data.Models.Workflow
         public virtual WorkflowConfiguration WorkflowConfiguration { get; set; }
         public virtual Role Role { get; set; }
 
+    }
+
+    public class WorkflowEngine : _Basemodel
+    {
+        public int CurrentPosition { get; set; }
+        [ForeignKey("WorkflowConfiguration")]
+        public Guid ConfigId { get; set; }
+        public Guid Record { get; set; }
+        public string Process { get; set; }
+        public ApprovalStatus ApprovalStatus { get; set; }
+        public virtual WorkflowConfiguration WorkflowConfiguration { get; set; }
+    }
+
+    public class WorkflowStateHistory : _Basemodel
+    {
+        [ForeignKey("Engine")]
+        public Guid EngineId { get; set; }
+        
+        public DateTime? StartDate { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public DateTime? EndDate { get; set; }
+        public string Comment { get; set; }
+        public string ExecutorUserId { get; set; }
+        public WorkflowState State { get; set; }
+        public long? StepId { get; set; }
+        public string NextStep { get; set; }
+        public virtual WorkflowEngine Engine { get; set; }
     }
 }

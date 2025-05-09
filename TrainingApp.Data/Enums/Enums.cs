@@ -12,4 +12,17 @@ namespace TrainingApp.Data.Enums
         EmpoyeeTraining,
         EmployeeExit
     }
+    public enum ApprovalStatus
+    {
+        Pending,
+        Approve,
+        Reject
+    }
+
+    public enum WorkflowState
+    {
+        Pending,
+        Approve,
+        Reject
+    }
 }
