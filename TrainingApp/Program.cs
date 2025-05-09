@@ -1,6 +1,5 @@
-
-
 using Hangfire;
+using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +33,7 @@ builder.Services.AddDbContextPool<TrainingContextDb>(options =>
 builder.Services.AddTransient<IDbRepository, DbRepository>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<IWorkflowService, WorkflowService>();
+builder.Services.AddTransient<IBackgroundWorkflowService, BackgroundWorkflowService>();
 
 builder.Services.AddScoped<UserManager<ApplicationUser>>();
 builder.Services.AddScoped<RoleManager<Role>>();
@@ -71,6 +71,21 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors();
 
+builder.Services.AddHangfire(config =>
+    {
+        var options = new SqlServerStorageOptions
+        {
+            PrepareSchemaIfNecessary = true,
+            CommandBatchMaxTimeout = TimeSpan.FromMinutes(2),
+            SlidingInvisibilityTimeout = TimeSpan.FromMinutes(2),
+            UseRecommendedIsolationLevel = true,
+            DisableGlobalLocks = true
+        };
+        config.UseSqlServerStorage(connectionString, options);
+    }
+       
+    );
+builder.Services.AddHangfireServer();
 
 builder.Services.AddAuthorization(options =>
 {
@@ -120,12 +135,12 @@ app.UseHttpsRedirection();
 app.MapGet("/login", [AllowAnonymous] () => "This endpoint is for all roles.");
 
 app.UseAuthorization();
-app.UseHangfireDashboard();
+//app.UseHangfireDashboard();
 
 
-app.UseHangfireServer();
+//app.UseHangfireServer();
 
-RecurringJob.AddOrUpdate<BackgroundWorkflowService>("Updating WOrkflow Information", r => r.UpdateWorkflowInfo(), Cron.Weekly);
+//RecurringJob.AddOrUpdate<BackgroundWorkflowService>("Updating WOrkflow Information", r => r.UpdateWorkflowInfo(), Cron.Weekly);
 
 
 app.MapControllers();

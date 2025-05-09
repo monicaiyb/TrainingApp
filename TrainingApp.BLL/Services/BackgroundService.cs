@@ -8,7 +8,7 @@ using TrainingApp.BLL.Interfaces;
 namespace TrainingApp.BLL.Services
 {
    
-    public class BackgroundWorkflowService
+    public class BackgroundWorkflowService: IBackgroundWorkflowService
     {
         private readonly IWorkflowService _workflowService;
         public BackgroundWorkflowService
