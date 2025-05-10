@@ -10,6 +10,7 @@ namespace TrainingApp.Data.DTOs.WorkflowDTO
 {
     public class WorkflowConfigDto
     {
+          public Guid id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public EmployeeProcess Process { get; set; }
@@ -17,6 +18,7 @@ namespace TrainingApp.Data.DTOs.WorkflowDTO
 
     public class WorkflowConfigStepDto
     {
+        public Guid id { get; set; }
         public string Name { get; set; }
         [ForeignKey("WorkflowConfiguration")]
         public Guid ConfigurationId { get; set; }
@@ -26,6 +28,7 @@ namespace TrainingApp.Data.DTOs.WorkflowDTO
     }
     public class WorkflowEngineDto
     {
+        public Guid id { get; set; }
         public int CurrentPosition { get; set; }
         [ForeignKey("WorkflowConfiguration")]
         public Guid ConfigId { get; set; }
@@ -36,6 +39,7 @@ namespace TrainingApp.Data.DTOs.WorkflowDTO
 
     public class WorkflowStateHistoryDto
     {
+        public Guid id { get; set; }
         [ForeignKey("Engine")]
         public Guid EngineId { get; set; }
 

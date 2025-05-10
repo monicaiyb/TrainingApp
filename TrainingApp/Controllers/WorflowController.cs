@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TrainingApp.BLL.Interfaces;
 using TrainingApp.Data.DTOs;
+using TrainingApp.Data.DTOs.WorkflowDTO;
 using TrainingApp.Data.Models.Employee;
 using TrainingApp.Data.Models.Workflow;
 
@@ -36,7 +37,7 @@ namespace TrainingApp.Controllers
 
         [HttpPost]
         [Route("AddConfiguration")]
-        public async Task<APIResponse> Post(WorkflowConfiguration configuration)
+        public async Task<APIResponse> Post(WorkflowConfigDto configuration)
         {
             var success = await _workflowService.SaveConfiguration(configuration);
             _response.IsSuccess = success;
@@ -46,7 +47,7 @@ namespace TrainingApp.Controllers
 
         [HttpPost]
         [Route("AddSteps")]
-        public async Task<APIResponse> Post(List<WorkflowConfigurationStep> steps, Guid configId)
+        public async Task<APIResponse> Post(List<WorkflowConfigStepDto> steps, Guid configId)
         {
             var success = await _workflowService.SaveConfigurationSteps(steps,configId);
             _response.IsSuccess = success;

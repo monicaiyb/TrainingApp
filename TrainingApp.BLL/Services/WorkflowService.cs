@@ -11,6 +11,7 @@ using TrainingApp.Data.Enums;
 using TrainingApp.Data.Models.Employee;
 using TrainingApp.Data.Models.Workflow;
 using TrainingApp.Data.Repository;
+using TrainingApp.Data.DTOs.WorkflowDTO;
 
 
 namespace TrainingApp.BLL.Services
@@ -30,19 +31,25 @@ namespace TrainingApp.BLL.Services
             var employees = await _repository.Set<WorkflowConfiguration>().ToListAsync();
             return employees;
         }
-        public async Task<bool> SaveConfiguration(WorkflowConfiguration employee)
+        public async Task<bool> SaveConfiguration(WorkflowConfigDto configDto)
         {
             try
             {
-                var dbEmployee = await _repository.Set<WorkflowConfiguration>().FindAsync(employee.id);
-
-                if (dbEmployee == null)//new record
+                var dbConfig = await _repository.Set<WorkflowConfiguration>().FindAsync(configDto.id);
+                var config = new WorkflowConfiguration
                 {
-                    await _repository.Set<WorkflowConfiguration>().AddAsync(employee);
+                    id = configDto.id,
+                    Name = configDto.Name,
+                    Description = configDto.Description,
+                    Process = configDto.Process
+                };
+                if (dbConfig == null)//new record
+                {
+                    await _repository.Set<WorkflowConfiguration>().AddAsync(config);
                 }
                 else
                 {
-                    await _repository.UpdateDatabaseModel(dbEmployee, employee);
+                    await _repository.UpdateDatabaseModel(dbConfig, config);
                 }
 
                 await _repository.SaveChanges();
@@ -62,7 +69,7 @@ namespace TrainingApp.BLL.Services
             return steps;
         }
 
-        public async Task<bool> SaveConfigurationSteps(List<WorkflowConfigurationStep> newSteps, Guid configId)
+        public async Task<bool> SaveConfigurationSteps(List<WorkflowConfigStepDto> newSteps, Guid configId)
         {
             try
             {
@@ -75,17 +82,37 @@ namespace TrainingApp.BLL.Services
 
                 var steps = _repository.Set<WorkflowConfigurationStep>()
                     .Where(r => r.ConfigurationId == dbConfiguration.id).ToList();
-                if (steps.Count <= 0)//new record
+              
+              if (steps.Count <= 0)//new record
                 {
-                    await _repository.Set<WorkflowConfigurationStep>().AddRangeAsync(newSteps);
+                    foreach (var item in newSteps)
+                    {
+                        var step = new WorkflowConfigurationStep
+                        {
+                            id = item.id,
+                            RoleId = item.RoleId,
+                            Position = item.Position,
+                            Name = item.Name
+                        };
+                        steps.Add(step);
+                    }
+                    await _repository.Set<WorkflowConfigurationStep>().AddRangeAsync(steps);
                 }
                 else
                 {
                     foreach (var step in steps)
                     {
                         await _repository.Remove(step);
+                        var newStep = new WorkflowConfigurationStep
+                        {
+                            id = step.id,
+                            RoleId = step.RoleId,
+                            Position = step.Position,
+                            Name = step.Name
+                        };
+                        steps.Add(step);
                     }
-                    _repository.Set<WorkflowConfigurationStep>().UpdateRange(newSteps);
+                    _repository.Set<WorkflowConfigurationStep>().UpdateRange(steps);
                 }
 
                 await _repository.SaveChanges();
@@ -99,26 +126,36 @@ namespace TrainingApp.BLL.Services
             return true;
         }
 
-        public async Task<bool> StartWorkflowTask(WorkflowEngine engine)
+        public async Task<bool> StartWorkflowTask(WorkflowEngineDto engineDto)
         {
             try
             {
                 var dbConfig = _repository.Set<WorkflowConfiguration>()
-                    .Where(r => r.id == engine.ConfigId).FirstOrDefault();
+                    .Where(r => r.id == engineDto.ConfigId).FirstOrDefault();
                 if (dbConfig == null)
                 {
                     throw new Exception("No workflow found");
                 }
 
                 var step = dbConfig.StepsList.OrderBy(r => r.Position).FirstOrDefault();
-                var dbengine = _repository.Set<WorkflowEngine>().Where(r => r.id == engine.id).FirstOrDefault();
+                var dbengine = _repository.Set<WorkflowEngine>().Where(r => r.id == engineDto.id).FirstOrDefault();
+                var engine = new WorkflowEngine
+                {
+                    id = engineDto.id,
+                    Process = engineDto.Process,
+                    ConfigId = engineDto.ConfigId,
+                    CurrentPosition = engineDto.CurrentPosition,
+                    createdon = DateTime.Now
+
+
+                };
                 if (dbengine == null)
                 {
                     engine.ApprovalStatus = ApprovalStatus.Pending;
                     engine.CurrentPosition = step.Position;
                     await _repository.Set<WorkflowEngine>().AddAsync(engine);
                 }
-                UpdateWorkflowState(engine,step,WorkflowState.Pending);
+                UpdateWorkflowState(engine, step,WorkflowState.Pending);
                 _repository.SaveChanges();
 
                 return true;    
