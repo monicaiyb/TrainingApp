@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TrainingApp.BLL.Interfaces;
 using TrainingApp.Data.DTOs;
 using TrainingApp.Data.DTOs.WorkflowDTO;
+using TrainingApp.Data.Enums;
 using TrainingApp.Data.Models.Employee;
 using TrainingApp.Data.Models.Workflow;
 
@@ -29,7 +30,7 @@ namespace TrainingApp.Controllers
         }
         [HttpGet]
         [Route("Configuration")]
-        public async Task<APIResponse> GetEmployee(Guid id)
+        public async Task<APIResponse> GetAllWorkflowConfiguration(Guid id)
         {
             _response.Data = await _workflowService.GetAllConfigurations();
             return _response;
@@ -68,5 +69,14 @@ namespace TrainingApp.Controllers
             _response.Data = await _workflowService.GetAllConfigurations();
             return _response;
         }
+
+        [HttpPost]
+        [Route("StartWorkflow")]
+        public async Task<APIResponse> StartWorkflow(WorkflowEngineDto engine)
+        {
+            _response.Data = await _workflowService.StartWorkflowTask(engine);
+            return _response;
+        }
+
     }
 }
