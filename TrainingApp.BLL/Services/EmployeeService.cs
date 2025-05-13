@@ -20,6 +20,7 @@ namespace TrainingApp.BLL.Services
         public async Task<List<Employee>> GetAllEmployees()
         {
             var employees = await _repository.Set<Employee>().ToListAsync();
+            
             return  employees;
         }
         public async Task<bool> SaveEmployee(Employee employee)

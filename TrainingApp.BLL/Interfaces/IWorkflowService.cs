@@ -13,7 +13,7 @@ namespace TrainingApp.BLL.Interfaces
 {
     public interface IWorkflowService
     {
-        Task<List<WorkflowConfiguration>> GetAllConfigurations();
+        Task<List<WorkflowConfigDto>> GetAllConfigurations();
         Task<bool> SaveConfiguration(WorkflowConfigDto config);
         Task<List<WorkflowConfigurationStep>> GetAllConfigurationSteps();
         Task<bool> SaveConfigurationSteps(List<WorkflowConfigStepDto> steps, Guid configId);

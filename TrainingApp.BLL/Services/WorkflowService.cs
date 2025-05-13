@@ -26,10 +26,10 @@ namespace TrainingApp.BLL.Services
             
         }
 
-        public async Task<List<WorkflowConfiguration>> GetAllConfigurations()
+        public async Task<List<WorkflowConfigDto>> GetAllConfigurations()
         {
-            var employees = await _repository.Set<WorkflowConfiguration>().ToListAsync();
-            return employees;
+            var workflow = await _repository.Set<WorkflowConfigDto>().ToListAsync();
+            return workflow;
         }
         public async Task<bool> SaveConfiguration(WorkflowConfigDto configDto)
         {
