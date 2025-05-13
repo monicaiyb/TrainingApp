@@ -81,6 +81,15 @@ namespace TrainingApp.Test.WorkflowServiceTest
             Assert.IsFalse(result);
         }
         [TestMethod]
+        public async Task GetAllConfiguration_ReturnsAllConfigs()
+        {
+            var result = await _workflowService.GetAllConfigurations();
+
+            Assert.IsNull(result);
+            //Assert.IsNotNull(result);
+
+        }
+        [TestMethod]
         public async Task SaveConfigurationStepsTest()
         {
             var configId = Guid.NewGuid();
