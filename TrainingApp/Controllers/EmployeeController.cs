@@ -23,7 +23,7 @@ namespace TrainingApp.Controllers
         [Route("GetAll")]
         public async  Task<APIResponse> GetAll()
         {
-            _response.Data = await _employeeService.GetAllEmployees();
+            _response.Data = await _employeeService.GetAllEmployees();s
             return _response;
         }
         [HttpGet]
