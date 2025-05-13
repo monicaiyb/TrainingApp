@@ -19,11 +19,11 @@ namespace TrainingApp.BLL.Services
     public class WorkflowService: IWorkflowService
     {
         private readonly IDbRepository _repository;
-        private readonly IHttpContextAccessor _httpContext;
-        public WorkflowService(IDbRepository repository, IHttpContextAccessor httpContext)
+        
+        public WorkflowService(IDbRepository repository)
         {
             _repository = repository;
-            _httpContext = httpContext;
+            
         }
 
         public async Task<List<WorkflowConfiguration>> GetAllConfigurations()
@@ -178,7 +178,7 @@ namespace TrainingApp.BLL.Services
                 StepId = step.id,
                 NextStep = nextStep.id,
                 State = state,
-                ExecutorUserId = _httpContext.HttpContext?.User.Identity.Name,
+                
                 DateCreated = engine.createdon,
                 EndDate = DateTime.Now
 
