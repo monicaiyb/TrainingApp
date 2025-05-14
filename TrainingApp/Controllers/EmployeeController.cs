@@ -23,9 +23,11 @@ namespace TrainingApp.Controllers
         [Route("GetAll")]
         public async  Task<APIResponse> GetAll()
         {
-            _response.Data = await _employeeService.GetAllEmployees();s
+            _response.Data = await _employeeService.GetAllEmployees();
             return _response;
         }
+
+        [AllowAnonymous]
         [HttpGet]
         [Route("Employee")]
         public async Task<APIResponse> GetEmployee(Guid id)
@@ -34,14 +36,21 @@ namespace TrainingApp.Controllers
             return _response;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("AddEmployee")]
-        public async Task<APIResponse> Post(Employee employee)
+        public async Task<APIResponse> AddEmployee(Employee employee)
         {
+            if (employee.FirstName== null || employee.FirstName == null)
+            {
+                //return BadRequest();
+            }
             var success = await _employeeService.SaveEmployee(employee);
             _response.IsSuccess = success;
                 return _response;
         }
+
+       
 
     }
 }

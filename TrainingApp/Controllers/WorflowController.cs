@@ -1,4 +1,5 @@
 ﻿using System.DirectoryServices.Protocols;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TrainingApp.BLL.Interfaces;
 using TrainingApp.Data.DTOs;
@@ -20,7 +21,8 @@ namespace TrainingApp.Controllers
             _workflowService = workflowService;
             _response = new APIResponse();
         }
-    
+
+        [AllowAnonymous]
         [HttpGet]
         [Route("AllConfigurations")]
         public async  Task<APIResponse> GetAll()
@@ -28,6 +30,8 @@ namespace TrainingApp.Controllers
             _response.Data = await _workflowService.GetAllConfigurations();
             return _response;
         }
+
+        [AllowAnonymous]
         [HttpGet]
         [Route("Configuration")]
         public async Task<APIResponse> GetAllWorkflowConfiguration(Guid id)
@@ -36,6 +40,7 @@ namespace TrainingApp.Controllers
             return _response;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("AddConfiguration")]
         public async Task<APIResponse> Post(WorkflowConfigDto configuration)
@@ -46,6 +51,7 @@ namespace TrainingApp.Controllers
                 return _response;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("AddSteps")]
         public async Task<APIResponse> Post(List<WorkflowConfigStepDto> steps, Guid configId)
@@ -55,6 +61,8 @@ namespace TrainingApp.Controllers
 
             return _response;
         }
+
+        [AllowAnonymous]
         [HttpGet]
         [Route("AllWorkflowSteps")]
         public async Task<APIResponse> GetAllSteps()
@@ -62,6 +70,8 @@ namespace TrainingApp.Controllers
             _response.Data = await _workflowService.GetAllConfigurations();
             return _response;
         }
+
+        [AllowAnonymous]
         [HttpGet]
         [Route("ConfigSteps")]
         public async Task<APIResponse> GetAllSteps(Guid configId)
@@ -70,6 +80,7 @@ namespace TrainingApp.Controllers
             return _response;
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("StartWorkflow")]
         public async Task<APIResponse> StartWorkflow(WorkflowEngineDto engine)
