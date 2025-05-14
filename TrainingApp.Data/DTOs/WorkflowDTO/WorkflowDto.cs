@@ -20,9 +20,9 @@ namespace TrainingApp.Data.DTOs.WorkflowDTO
     {
         public Guid id { get; set; }
         public string Name { get; set; }
-        [ForeignKey("WorkflowConfiguration")]
+     
         public Guid ConfigurationId { get; set; }
-        [ForeignKey("Role")]
+       
         public Guid RoleId { get; set; }
         public int Position { get; set; }
     }

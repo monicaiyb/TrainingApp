@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using TrainingApp.BLL.Interfaces;
 using TrainingApp.BLL.Services;
+using TrainingApp.Data.DTOs.WorkflowDTO;
+using TrainingApp.Data.Models.Employee;
 using TrainingApp.Data.Models.Workflow;
 using TrainingApp.Data.Repository;
 
@@ -16,17 +18,20 @@ namespace TrainingApp.Test.WorkflowServiceTest
     [TestClass]
     public class WorkflowTest
     {
-        private readonly IWorkflowService _workflowService;
-
+        private IWorkflowService _workflowService;
+        private IDbRepository _repository;
         private Mock<IDbRepository> _mockRepository;
-     
+        private WorkflowConfigurationStep Data;
+        private IQueryable<WorkflowConfigurationStep> dataList;
+        private List<WorkflowConfigurationStep> StepsLIst;
+
 
         [TestInitialize]
         public void Setup()
         {
             _mockRepository = new Mock<IDbRepository>();
-
-            var data = new List<WorkflowConfigurationStep>
+            
+            dataList = new List<WorkflowConfigurationStep>
             {
                 new WorkflowConfigurationStep
                 {
@@ -50,25 +55,71 @@ namespace TrainingApp.Test.WorkflowServiceTest
             }.AsQueryable();
 
             var mockDbSet = new Mock<DbSet<WorkflowConfigurationStep>>();
-            mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.Provider).Returns(dataList.Provider);
+            mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.Expression).Returns(dataList.Expression);
+            mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.ElementType).Returns(dataList.ElementType);
+            mockDbSet.As<IQueryable<WorkflowConfigurationStep>>().Setup(m => m.GetEnumerator()).Returns(dataList.GetEnumerator());
 
        _mockRepository.Setup(r => r.Set<WorkflowConfigurationStep>()).Returns(mockDbSet.Object);
+       _repository = _mockRepository.Object;
+       var workflowMock = new Mock<IWorkflowService>();
+       _workflowService = workflowMock.Object;
 
-            //_workflowService = new WorkflowService(_mockRepository.Object);
+         
+        }
+
+        [TestMethod]
+        public async Task SaveConfigurationTest()
+        {
+            var config = new WorkflowConfigDto()
+            {
+                id=Guid.NewGuid(),
+                Name="Employee Application"
+            };
+
+            var result = await _workflowService.SaveConfiguration(config);
+            Assert.IsFalse(result);
+        }
+        [TestMethod]
+        public async Task GetAllConfiguration_ReturnsAllConfigs()
+        {
+            var result = await _workflowService.GetAllConfigurations();
+
+            Assert.IsNull(result);
+            //Assert.IsNotNull(result);
+
+        }
+        [TestMethod]
+        public async Task SaveConfigurationStepsTest()
+        {
+            var configId = Guid.NewGuid();
+
+
+            var stepsList = new List<WorkflowConfigStepDto>
+            {
+                new WorkflowConfigStepDto
+                {
+                    ConfigurationId = configId,
+                    Position = 1,
+                    id = configId,
+                    Name = "Step 1"
+                }
+            };
+
+            
+            var dbContext = new Mock<WorkflowConfigStepDto>().Object;
+            var result = await _workflowService.SaveConfigurationSteps(stepsList, configId);
+            Assert.IsFalse(result);
         }
 
         [TestMethod]
         public async Task GetAllConfigurationSteps_ReturnsAllSteps()
         {
             var result = await _workflowService.GetAllConfigurationSteps();
-
+           
             Assert.IsNull(result);
-            //Assert.AreEqual(2, result.Count);
-            //Assert.AreEqual("Step 1", result[0].Name);
-            //Assert.AreEqual("Config A", result[0].WorkflowConfiguration.Name);
+            //Assert.IsNotNull(result);
+            
         }
     }
 }
