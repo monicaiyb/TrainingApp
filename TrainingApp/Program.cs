@@ -1,14 +1,18 @@
 using Hangfire;
 using Hangfire.SqlServer;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using TrainingApp.BLL.Interfaces;
 using TrainingApp.BLL.Services;
 using TrainingApp.Data;
 using TrainingApp.Data.Models.Users;
 using TrainingApp.Data.Repository;
 using TrainingApp.Data.SeedData;
+using TrainingApp.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,22 +54,43 @@ builder.Services.AddIdentity<ApplicationUser, Role>(
     .AddEntityFrameworkStores<TrainingContextDb>().AddRoles<Role>()
     .AddTokenProvider<DataProtectorTokenProvider<ApplicationUser>>(TokenOptions.DefaultProvider);
 
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    // Lockout settings.
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-    options.Lockout.MaxFailedAccessAttempts = 5;
-    options.Lockout.AllowedForNewUsers = true;
+//builder.Services.Configure<IdentityOptions>(options =>
+//{
+//    // Lockout settings.
+//    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+//    options.Lockout.MaxFailedAccessAttempts = 5;
+//    options.Lockout.AllowedForNewUsers = true;
 
-    // User settings.
-    options.User.AllowedUserNameCharacters =
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-    options.User.RequireUniqueEmail = false;
-});
+//    // User settings.
+//    options.User.AllowedUserNameCharacters =
+//        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+//    options.User.RequireUniqueEmail = false;
+//}); 
+
+
+
+
 
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateIssuerSigningKey = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidAudience = builder.Configuration["token:audience"],
+        ValidIssuer = builder.Configuration["token:issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["token:key"]))
+    };
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -130,10 +155,10 @@ if (app.Environment.IsDevelopment())
 
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
-app.MapGet("/login", [AllowAnonymous] () => "This endpoint is for all roles.");
-
+//app.MapGet("/login", [AllowAnonymous] () => "This endpoint is for all roles.");
+app.MapGet("/", () => "hello world");
 app.UseAuthorization();
 //app.UseHangfireDashboard();
 
