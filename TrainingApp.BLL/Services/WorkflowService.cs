@@ -185,5 +185,10 @@ namespace TrainingApp.BLL.Services
             };
             this._repository.Set<WorkflowStateHistory>().Add(history);
         }
+
+        public async Task ExecuteWorkflow(WorkflowEngineDto engine)
+        {
+
+        }
     }
 }

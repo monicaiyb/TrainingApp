@@ -38,6 +38,7 @@ builder.Services.AddTransient<IDbRepository, DbRepository>();
 builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 builder.Services.AddTransient<IWorkflowService, WorkflowService>();
 builder.Services.AddTransient<IBackgroundWorkflowService, BackgroundWorkflowService>();
+builder.Services.AddTransient<IAuthService, AuthService>();
 
 builder.Services.AddScoped<UserManager<ApplicationUser>>();
 builder.Services.AddScoped<RoleManager<Role>>();

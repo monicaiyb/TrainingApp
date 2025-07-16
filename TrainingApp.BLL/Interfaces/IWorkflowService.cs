@@ -21,5 +21,7 @@ namespace TrainingApp.BLL.Interfaces
 
        void UpdateWorkflowState(WorkflowEngine engine, WorkflowConfigurationStep step,
            WorkflowState? state);
+
+       Task ExecuteWorkflow(WorkflowEngineDto engine);
     }
 }
